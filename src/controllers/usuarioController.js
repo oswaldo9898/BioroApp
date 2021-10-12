@@ -2,7 +2,7 @@
 const util = require('util');
 const connection = require('../config/connection');
 const query = util.promisify(connection.query).bind(connection);
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { json } = require('express');
 
 function isEmptyObject(obj) {
