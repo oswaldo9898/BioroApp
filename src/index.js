@@ -6,7 +6,7 @@ require('./config/connection');
 
 app.listen(app.get('port'), (error) => {
     if (error) {
-        console.log(`Sucedio un error: ${error}`);
+        console.log(`Sucedió un error: ${error}`);
     }else{
         console.log(`Servidor corriendo en el puerto: ${app.get('port')}`);
     }

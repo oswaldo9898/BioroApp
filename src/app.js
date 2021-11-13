@@ -6,6 +6,7 @@ const app = express();
 var usuario_route = require('./routes/usuario.route');
 var locacion_route = require('./routes/locacion.route');
 var especies_route = require('./routes/especies.route');
+var flora_route = require('./routes/flora.route');
 var areas_route = require('./routes/areas.route');
 
 //setings
@@ -21,6 +22,7 @@ app.use(express.json());
 app.use('/api', usuario_route);
 app.use('/api', locacion_route);
 app.use('/api', especies_route);
+app.use('/api', flora_route);
 app.use('/api', areas_route);
 
 //exportar

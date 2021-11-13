@@ -14,31 +14,27 @@ const ver_usuario = async function(req, res){
     try {
        let sqls = `SELECT password FROM usuarios_app WHERE email = ${connection.escape(email)}`
        const val = await query(sqls);
-       if(isEmptyObject(val)){
-        res.status(200).send(val);
-    }else{
-         
-        var data = Object.values(JSON.parse(JSON.stringify(val)));
-        let compare = bcrypt.compareSync(password,data[0].password);
-        if(compare){
-         let sql = `SELECT * FROM usuarios_app WHERE email = ${connection.escape(email)} and password = ${connection.escape(data[0].password)}`
-         const reg = await query(sql);
-         res.status(200).send(reg);
+        if(isEmptyObject(val)){
+            res.status(200).send(val);
         }else{
-         let sql = `SELECT * FROM usuarios_app WHERE email = ${connection.escape(email)} and password = ${connection.escape(password)}`
-         const reg = await query(sql);
-         res.status(200).send(reg); 
+            
+            var data = Object.values(JSON.parse(JSON.stringify(val)));
+            let compare = bcrypt.compareSync(password,data[0].password);
+            if(compare){
+            let sql = `SELECT * FROM usuarios_app WHERE email = ${connection.escape(email)} and password = ${connection.escape(data[0].password)}`
+            const reg = await query(sql);
+            res.status(200).send(reg);
+            }else{
+            let sql = `SELECT * FROM usuarios_app WHERE email = ${connection.escape(email)} and password = ${connection.escape(password)}`
+            const reg = await query(sql);
+            res.status(200).send(reg); 
+            }
         }
-    }
-        //res.json(reg);
-    } catch (error) {
+    }catch (error) {
         res.status(404).send({data:'Ocurrio un error',error});
     }
 }
 const register = async function(req,res){
-  //  const username = req.params['username'];
-  //  const email = req.params['email'];
- //   const password = req.params['password'];
     const{username , email , password} = req.body;
     try{
         let passwordHash = await bcrypt.hashSync(password, 10)
@@ -47,11 +43,8 @@ const register = async function(req,res){
         let sql = `INSERT INTO usuarios_app(username,email,password) VALUES (${connection.escape(username)},${connection.escape(email)} ,${connection.escape(passwordHash)})`
         const reg = await query(sql);
         console.log('user add');
-        //res.status(200);
         res.status(200).send('user add');
     }catch(error){
-       // print(error);
-      //  res.status(409);
         console.log('error');
         res.status(409).send("Usuario ya registrado")
     }
