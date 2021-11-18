@@ -27,11 +27,10 @@ const ver_flora = async function(req, res){
     const {id} = req.params;
     try{
         let sql = `select flora.id_flora, flora.nom_flora, flora.tipo_flora, flora.etimologia_flora,
-        flora.diagnosis_flora, flora.comentarios_taxonomicos_flora, flora.distribucion_composicion_flora, personas.nom_persona as autor,
+        flora.diagnosis_flora, flora.comentarios_taxonomicos_flora, flora.distribucion_composicion_flora, flora.autor_flora,
         flora_imagen.imagenflora as imagen, flora_imagen.autor_flora_imagen
         from flora 
-        inner join flora_locaciones on flora.id_flora = flora_locaciones.id_flora 
-        left join personas on flora.autor_flora = personas.id_persona
+        inner join flora_locaciones on flora.id_flora = flora_locaciones.id_flora
         left join flora_imagen on flora.id_flora = flora_imagen.id_flora
         where flora.id_flora = ${connection.escape(id)}`
         const reg = await query(sql);

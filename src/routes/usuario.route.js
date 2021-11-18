@@ -1,10 +1,10 @@
 'use strict'
 const { Router } = require('express');
 const api = Router();
-const{ver_usuario, register, editar_usuario} = require('../controllers/usuarioController');
+const{ver_usuario, agregar_usuario, editar_usuario} = require('../controllers/usuarioController');
 
-api.get('/iniciar_sesion/:email/:password', ver_usuario);
-api.post('/registrarse/', register);
-api.put('/editar_usuario/', editar_usuario);
+api.post('/iniciar_sesion', ver_usuario);
+api.put('/registrar/', agregar_usuario);
+api.put('/cambiar_clave/', editar_usuario);
 
 module.exports = api;

@@ -53,10 +53,11 @@ const ver_fauna = async function(req, res){
 const listar_fauna_peces = async function(req, res){
     const {id} = req.params;
     try{
-        let sql = `select especies.id_especie, especies.nom_especie
+        let sql = `select especies.id_especie, especies.nom_especie, imagenes.imagen
 		from especies 
         left join especies_localidades_muestreo on especies.id_especie = especies_localidades_muestreo.id_especie
         left join localidades_muestreo on localidades_muestreo.id_muestreo = especies_localidades_muestreo.id_muestreo 
+        left join imagenes on especies.id_especie = imagenes.id_especie
         where especies.tipo = 'Pez' and localidades_muestreo.id_muestreo = ${connection.escape(id)};`
         const reg = await query(sql);
         res.status(200).send(reg);

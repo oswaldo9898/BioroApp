@@ -9,8 +9,9 @@ function isEmptyObject(obj) {
     return !Object.keys(obj).length;
   }
 const ver_usuario = async function(req, res){
-    const email = req.params.email;
-    const password = req.params.password;
+    var data = req.body;
+    const email = data.email;
+    const password = data.password;
     try {
        let sqls = `SELECT password FROM usuarios_app WHERE email = ${connection.escape(email)}`
        const val = await query(sqls);
@@ -34,12 +35,13 @@ const ver_usuario = async function(req, res){
         res.status(404).send({data:'Ocurrio un error',error});
     }
 }
-const register = async function(req,res){
-    const{username , email , password} = req.body;
+const agregar_usuario = async function(req, res){
+    var data = req.body;
+    const username = data.username;
+    const email = data.email;
+    const password = data.password;
     try{
         let passwordHash = await bcrypt.hashSync(password, 10)
-
-        console.log(passwordHash)
         let sql = `INSERT INTO usuarios_app(username,email,password) VALUES (${connection.escape(username)},${connection.escape(email)} ,${connection.escape(passwordHash)})`
         const reg = await query(sql);
         console.log('user add');
@@ -51,9 +53,12 @@ const register = async function(req,res){
 }
 
 const editar_usuario = async function(req, res){
-    const{email , password} = req.body;
+    var data = req.body;
+    const email = data.email;
+    const password = data.password;
     try{
         let passwordHash = await bcrypt.hashSync(password, 10)
+        console.log(passwordHash)
         let sql = `UPDATE usuarios_app SET password = ${connection.escape(passwordHash)} WHERE email = ${connection.escape(email)}`
         const reg = await query(sql);
         res.status(200).send('password modificado');
@@ -63,12 +68,8 @@ const editar_usuario = async function(req, res){
     }
 }
 
-const eliminar_usuario = async function(req, res){}
-
-
 module.exports = {
     ver_usuario,
-    register,
-    editar_usuario,
-    eliminar_usuario
+    agregar_usuario,
+    editar_usuario
 };
